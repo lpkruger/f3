@@ -15,6 +15,10 @@ ifneq ($(OS), Linux)
 	ARGP = /usr/local
 	CFLAGS += -I$(ARGP)/include
 	LDFLAGS += -L$(ARGP)/lib -largp
+ifeq ($(OS),Windows_NT)
+	# Cygwin default stack is too small, causes segfaults
+	LDFLAGS += -Wl,--stack,8388608
+endif
 endif
 
 all: $(TARGETS)
